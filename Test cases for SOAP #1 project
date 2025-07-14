@@ -1,0 +1,56 @@
+# Test Cases for IsValidISBN10 SOAP API
+
+https://webservices.daehosting.com/services/isbnservice.wso?op=IsValidISBN10
+
+| TID  | Test Data        | Test Case Description                  | Precondition            | Test Steps                           | Expected Result        | Priority | Is Automated |
+|------|------------------|----------------------------------------|-------------------------|--------------------------------------|------------------------|----------|--------------|
+| TC_01 | 0306406152       | Valid ISBN-10 Number                  | API Live                | Send sISBN=0306406152                | true                   | High     | Yes          |
+| TC_02 | 048665088X       | Valid ISBN ending with X              | API Live                | Send sISBN=048665088X                | true                   | High     | Yes          |
+| TC_03 | 1234567890       | Invalid ISBN Number                  | API Live                | Send sISBN=1234567890                | false                  | High     | Yes          |
+| TC_04 | 0000000000       | All zeros input                      | API Live                | Send sISBN=0000000000                | false                  | Medium   | Yes          |
+| TC_05 | 1111111111       | All ones input                       | API Live                | Send sISBN=1111111111                | false                  | Medium   | Yes          |
+| TC_06 | 2222222222       | All twos input                       | API Live                | Send sISBN=2222222222                | false                  | Medium   | Yes          |
+| TC_07 | 3333333333       | All threes input                     | API Live                | Send sISBN=3333333333                | false                  | Medium   | Yes          |
+| TC_08 | 4444444444       | All fours input                      | API Live                | Send sISBN=4444444444                | false                  | Medium   | Yes          |
+| TC_09 | 5555555555       | All fives input                      | API Live                | Send sISBN=5555555555                | false                  | Medium   | Yes          |
+| TC_10 | 12345            | Too short input                      | API Live                | Send sISBN=12345                     | error/false            | Medium   | Yes          |
+| TC_11 | 1234567890123    | Too long input                       | API Live                | Send sISBN=1234567890123             | error/false            | Medium   | Yes          |
+| TC_12 | "" (empty)       | Empty string input                   | API Live                | Send sISBN=""                        | error/false            | High     | Yes          |
+| TC_13 | null             | Null input                           | API Live                | Send sISBN=null                      | error/false            | High     | Yes          |
+| TC_14 | ABCDEFGHIJ       | All alphabets input                  | API Live                | Send sISBN=ABCDEFGHIJ                | error                  | High     | Yes          |
+| TC_15 | 1234ABCDE9       | Alphanumeric input                   | API Live                | Send sISBN=1234ABCDE9                | error                  | High     | Yes          |
+| TC_16 | 1234ABCDX9       | Alphanumeric with X                 | API Live                | Send sISBN=1234ABCDX9                | error                  | Medium   | Yes          |
+| TC_17 | 123456789x       | Lowercase x at end                  | API Live                | Send sISBN=123456789x                | false/error            | Medium   | Yes          |
+| TC_18 | 1234!@#$%^       | Special characters                  | API Live                | Send sISBN=1234!@#$%^                | error                  | Medium   | Yes          |
+| TC_19 | 123456789        | 9 digits only input                 | API Live                | Send sISBN=123456789                 | false                  | Medium   | Yes          |
+| TC_20 | Whitespaces      | Whitespaces only input              | API Live                | Send sISBN="   "                     | error/false            | Medium   | Yes          |
+| TC_21 | 12345678 9       | Input with space in between         | API Live                | Send sISBN=12345678 9                | error                  | Medium   | Yes          |
+| TC_22 | 1234567-890      | Input with hyphen                   | API Live                | Send sISBN=1234567-890               | error                  | Medium   | Yes          |
+| TC_23 | 123456789*       | Special character at end            | API Live                | Send sISBN=123456789*                | error                  | Medium   | Yes          |
+| TC_24 | SOAP 1.1         | Protocol compliance SOAP 1.1        | API Live                | Send SOAP 1.1 formatted request      | 200 OK + valid result  | High     | Yes          |
+| TC_25 | SOAP 1.2         | Protocol compliance SOAP 1.2        | API Live                | Send SOAP 1.2 formatted request      | 200 OK + valid result  | High     | Yes          |
+| TC_26 | Malformed XML    | Malformed SOAP request              | API Live                | Send malformed XML                  | SOAP Fault/Error       | High     | Yes          |
+| TC_27 | Missing sISBN    | Missing parameter                   | API Live                | Send request without sISBN          | SOAP Fault/Error       | High     | Yes          |
+| TC_28 | JSON Payload     | Incorrect Content-Type JSON         | API Live                | Send JSON body instead of XML       | 415 Unsupported Type   | High     | Yes          |
+| TC_29 | 12@4$6           | Random symbols input                | API Live                | Send sISBN=12@4$6                    | error                  | Medium   | Yes          |
+| TC_30 | 100 requests     | Load Test                           | API Live                | Send 100 concurrent requests        | No failure responses   | Low      | No           |
+| TC_31 | 0123456789       | Leading zero input                  | API Live                | Send sISBN=0123456789                | false                  | Medium   | Yes          |
+| TC_32 | Unicode Text     | Non-ASCII Characters input          | API Live                | Send sISBN=文字列                   | error                  | Low      | No           |
+| TC_33 | 1234567899       | Invalid checksum ISBN               | API Live                | Send sISBN=1234567899                | false                  | Medium   | Yes          |
+| TC_34 | 0486650880       | Valid except X replaced by 0        | API Live                | Send sISBN=0486650880                | false                  | Medium   | Yes          |
+| TC_35 | Valid with X     | Uppercase X in valid ISBN           | API Live                | Send sISBN=...X                     | true                   | High     | Yes          |
+| TC_36 | Lowercase x valid| Lowercase x in ISBN                | API Live                | Send sISBN=...x                     | false/error            | Medium   | Yes          |
+| TC_37 | Null in SOAP     | Null value in SOAP                 | API Live                | Send null in request                | error                  | High     | Yes          |
+| TC_38 | Input with tabs  | Tabs as input                      | API Live                | Send sISBN=with tabs                | error                  | Low      | Yes          |
+| TC_39 | Mixed Encoding   | Copy-Paste Errors                  | API Live                | Send mixed encoding text            | error                  | Low      | No           |
+| TC_40 | 9999999999       | Max numeric input                  | API Live                | Send sISBN=9999999999                | false                  | Medium   | Yes          |
+| TC_41 | 987654321X       | Alternate valid ISBN               | API Live                | Send sISBN=987654321X                | true                   | High     | Yes          |
+| TC_42 | Duplicate input  | Repeated same ISBN input           | API Live                | Repeat same request multiple times  | Consistent result      | Low      | No           |
+| TC_43 | Hyphen input     | ISBN with hyphen included          | API Live                | Send sISBN with hyphen              | error                  | Medium   | Yes          |
+| TC_44 | Long spaces      | Input with only long spaces        | API Live                | Send sISBN with spaces only         | error                  | Medium   | Yes          |
+| TC_45 | String 'null'    | Input string "null"                | API Live                | Send sISBN="null"                   | error                  | Medium   | Yes          |
+| TC_46 | 11 digit number  | Exceeding max length               | API Live                | Send sISBN=11 digits                | error/false            | Medium   | Yes          |
+| TC_47 | Decimal Number   | Input decimal number               | API Live                | Send sISBN=123456789.0              | error                  | Medium   | Yes          |
+| TC_48 | 0                | Single zero input                  | API Live                | Send sISBN=0                        | error                  | Medium   | Yes          |
+| TC_49 | Reversed Valid   | Valid ISBN reversed                | API Live                | Reverse digits of a valid ISBN      | false                  | Medium   | Yes          |
+| TC_50 | ABC123$%X        | Alphanumeric with special chars    | API Live                | Send sISBN=ABC123$%X                | error                  | Medium   | Yes          |
