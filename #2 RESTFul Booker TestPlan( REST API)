@@ -1,0 +1,109 @@
+Test Plan for Restful Booker API
+1. Overview
+This test plan defines the strategy for testing the Restful Booker REST API which provides booking operations such as create, retrieve, update, partial update, delete, authentication, and health check.
+2. Objective
+Validate API functionalities for CRUD operations on bookings.
+Verify token-based authentication for secured endpoints.
+Test API reliability, error handling, performance, and protocol compliance.
+Ensure data integrity on create, update, and delete operations.
+3. Scope
+In Scope:
+Functional testing of all API endpoints: Auth Token, Create, Read, Update, Partial Update, Delete, Health Check.
+Security validation via token and basic auth.
+Boundary and negative testing for all endpoints.
+Performance checks for CRUD operations.
+Data validation post updates and deletions.
+Out of Scope:
+UI-based tests (API only).
+Penetration/security vulnerability tests.
+Third-party system integrations.
+4. Test Environment
+Component
+Detail
+API Base URL
+https://restful-booker.herokuapp.com
+Protocols Supported
+HTTPS, REST
+Authentication
+Token-based & Basic Authentication
+Tools
+Postman, Newman, JMeter, Curl
+Data Format
+JSON, XML
+
+5. Test Data
+Endpoint
+Sample Data
+Auth
+username: admin, password: password123
+Create Booking
+firstname: Jim, lastname: Brown, price: 111, deposit: true, dates: checkin, checkout
+Update Booking
+firstname: James, lastname: Brown, price: 150
+Partial Update
+firstname: James, lastname: Brown
+Booking ID
+Any existing booking IDs
+
+6. Test Scenarios
+Auth token generation with correct credentials.
+Reject token with invalid credentials.
+Successfully create, retrieve, update, partial update, and delete bookings.
+Health check endpoint returns 201.
+Negative tests: invalid inputs, missing fields, wrong tokens.
+Boundary cases: max values, empty strings, date validations.
+Performance tests with concurrent requests.
+7. Test Approach
+Phase
+Tool
+Description
+Manual Testing
+Postman, Curl
+All functional and negative tests.
+Automation
+Newman, Postman CLI
+Automated collection runs.
+Load/Stress Testing
+JMeter
+Simulate load on key endpoints.
+
+8. Roles & Responsibilities
+Role
+Responsibility
+QA Engineer
+Design and execute test cases
+Automation QA
+Develop automation scripts
+Developer
+Fix bugs and issues
+
+9. Entry and Exit Criteria
+Entry Criteria:
+API endpoints are stable and accessible.
+Test data is available.
+Exit Criteria:
+100% functional and negative test cases executed.
+No critical or high-priority defects open.
+API response schema validated.
+10. Risks & Mitigation
+Risk
+Mitigation
+API downtime
+Run health check before testing
+Authentication failures
+Ensure token refresh logic
+Data inconsistency
+Use isolated test data
+
+11. Reporting & Metrics
+Test Execution Report
+Defect Summary
+Performance Metrics (if tested via JMeter)
+Automation Run Reports (Newman)
+12. Sample Curl Commands
+Auth Token:
+curl -X POST https://restful-booker.herokuapp.com/auth -H 'Content-Type: application/json' -d '{"username": "admin", "password": "password123"}'
+Create Booking:
+curl -X POST https://restful-booker.herokuapp.com/booking -H 'Content-Type: application/json' -d '{"firstname":"Jim","lastname":"Brown","totalprice":111,"depositpaid":true,"bookingdates":{"checkin":"2018-01-01","checkout":"2019-01-01"},"additionalneeds":"Breakfast"}'
+Health Check:
+curl https://restful-booker.herokuapp.com/ping
