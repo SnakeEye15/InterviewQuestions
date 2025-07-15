@@ -1,0 +1,238 @@
+✅ Test Plan: SOAP API — IsValidISBN10
+
+1. Overview
+This test plan defines the structured approach for testing the IsValidISBN10 method from the SOAP Web Service hosted at webservices.daehosting.com. The service validates ISBN-10 numbers using a checksum mechanism, accepting 10-digit numeric values or 9 digits followed by 'X'.
+
+2. Objective
+To verify that the IsValidISBN10 API:
+Correctly validates valid and invalid ISBN-10 numbers.
+
+
+Responds accurately over both SOAP 1.1 and SOAP 1.2 protocols.
+
+
+Handles errors gracefully for malformed or incorrect inputs.
+
+
+Maintains consistent performance and response reliability.
+
+
+
+3. Test Scope
+In Scope:
+Functional validation with various ISBN-10 formats.
+
+
+Protocol compliance: SOAP 1.1 and SOAP 1.2.
+
+
+Negative and boundary testing.
+
+
+Response schema validation and data type checking.
+
+
+Status code and content-type validation.
+
+
+Out of Scope:
+ISBN-13 validation.
+
+
+UI or frontend interface testing.
+
+
+Penetration or security testing.
+
+
+
+4. Test Environment
+Component
+Details
+API Endpoint
+http://webservices.daehosting.com/services/isbnservice.wso
+Supported Protocols
+SOAP 1.1, SOAP 1.2
+Response Format
+Boolean (true/false)
+Authentication
+None
+Testing Tools
+Postman, SOAP UI, JMeter (for optional load testing)
+
+
+5. Test Data
+Test Type
+Input ISBN
+Expected Output
+Valid ISBN
+0306406152
+true
+Valid ISBN with X
+048665088X
+true
+Invalid ISBN
+1234567890
+false
+Invalid Characters
+ABCDE12345
+false/error
+Too Short Input
+12345
+error/false
+Too Long Input
+1234567890123
+error/false
+Empty String
+""
+error/false
+Null Input
+null
+error/false
+
+
+6. Test Scenarios
+6.1 Functional Tests
+Validate response for valid ISBN-10.
+
+
+Validate response for ISBN ending in 'X'.
+
+
+Verify handling of invalid ISBN formats.
+
+
+Test behavior with empty, null, or non-numeric inputs.
+
+
+6.2 Protocol Compliance
+Test requests using SOAP 1.1 structure.
+
+
+Test requests using SOAP 1.2 structure.
+
+
+6.3 Negative Testing
+Malformed SOAP envelopes.
+
+
+Missing required <sISBN> parameter.
+
+
+Invalid content types (e.g., sending JSON with SOAP header).
+
+
+Non-numeric ISBNs.
+
+
+Extremely large payloads to check robustness.
+
+
+6.4 Response Validation
+Validate HTTP Status Code: 200 OK.
+
+
+Check response content-type aligns with protocol (text/xml or application/soap+xml).
+
+
+Validate XML schema of the SOAP response.
+
+
+Confirm that the boolean output matches expected outcomes.
+
+
+6.5 Optional Performance Testing
+Simulate 100+ concurrent requests using JMeter.
+
+
+Ensure average response time is within acceptable limits (e.g., <500ms).
+
+
+
+7. Test Approach
+Phase
+Tool
+Description
+Manual Testing
+Postman, SOAP UI
+Execute all functional and negative tests
+Automation (Optional)
+Python (zeep), Java (TestNG)
+Automate functional scenarios
+Load Testing
+JMeter
+Optional stress tests to gauge API performance
+
+
+8. Roles & Responsibilities
+Role
+Responsibility
+QA Engineer
+Designing and executing test cases
+Automation Engineer
+Automating basic validation cases
+Developer
+Analyzing and fixing defects (if any)
+
+
+9. Entry & Exit Criteria
+Entry Criteria:
+API documentation and request/response structures are provided.
+
+
+Stable and accessible API endpoint.
+
+
+Test data and environment prepared.
+
+
+Exit Criteria:
+All functional, protocol, and negative test cases executed.
+
+
+All critical and major defects resolved and revalidated.
+
+
+Test reports finalized and approved.
+
+
+
+10. Risks & Mitigation
+Risk
+Mitigation Strategy
+API downtime during testing
+Confirm service availability beforehand.
+Lack of API documentation
+Use sample requests to derive structure and behaviors.
+Protocol misconfiguration
+Validate with both SOAP 1.1 and SOAP 1.2 prior to full test execution.
+
+
+11. Sample SOAP Request
+SOAP 1.1 Example:
+POST /services/isbnservice.wso HTTP/1.1
+Host: webservices.daehosting.com
+Content-Type: text/xml; charset=utf-8
+
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <IsValidISBN10 xmlns="http://webservices.daehosting.com/ISBN">
+      <sISBN>0306406152</sISBN>
+    </IsValidISBN10>
+  </soap:Body>
+</soap:Envelope>
+
+
+12. Reporting & Metrics
+Test Execution Report: Summary of pass/fail status across scenarios.
+
+
+Defect Report: Documentation of any bugs or inconsistencies.
+
+
+Protocol Coverage Matrix: Success/failure across SOAP 1.1, SOAP 1.2.
+
+
+Performance Metrics (if applicable): Graphs and stats from load testing.
+
+
